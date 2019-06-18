@@ -11,8 +11,6 @@ import click  # progress bar
 from urllib.parse import unquote
 from urllib.request import urlretrieve
 
-# TODO:
-# cleanup venue, title, date outputs in json file
 
 parser = ArgumentParser()
 parser.add_argument('-t', '--target', required=True, dest='target',
@@ -30,7 +28,8 @@ target = args['target']
 dl_images = args['images']
 output_dir = args['output_dir']
 
-os.makedirs('./'+output_dir, exist_ok=True) # create output dir using relative path
+# create output dir using relative path
+os.makedirs('./'+output_dir, exist_ok=True)
 
 try:
     if ('.html' in target):
@@ -51,14 +50,12 @@ with click.progressbar(events, label='Processing events') as events:
     for event in events:
         new_event = {}
         new_event['url'] = event.get('data-share-url')
-        main = event.find('a', class_='list-card__main')
-        body = main.find('div', class_='list-card__body')
-        new_event['date'] = str(
-            body.find('time', class_='list-card__date').contents)
-        new_event['title'] = str(
-            body.find('div', class_='list-card__title').contents)
-        new_event['venue'] = str(
-            body.find('div', class_='list-card__venue').contents)
+        new_event['date'] = ' '.join(
+            event.find('time', class_='list-card__date').string.replace('\n', '').split())
+        new_event['title'] = event.find(
+            'div', class_='list-card__title').string.strip()
+        new_event['venue'] = event.find(
+            'div', class_='list-card__venue').string.strip()
 
         img = main.find('img', class_='js-poster-image').get('src')
         img_url = None
