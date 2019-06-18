@@ -1,4 +1,6 @@
-images
+output
 sample.html
+sample_files
 Pipfile
 Pipfile.lock
+output.json
