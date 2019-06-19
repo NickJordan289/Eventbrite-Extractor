@@ -11,6 +11,7 @@ import click  # progress bar
 from urllib.parse import unquote
 from urllib.request import urlretrieve
 
+# TODO: use selenium for "show more" past event expanding
 
 parser = ArgumentParser()
 parser.add_argument('-t', '--target', required=True, dest='target',
@@ -29,7 +30,7 @@ dl_images = args['images']
 output_dir = args['output_dir']
 
 # create output dir using relative path
-os.makedirs('./'+output_dir, exist_ok=True)
+os.makedirs(os.getcwd()+'/'+output_dir, exist_ok=True)
 
 try:
     if ('.html' in target):
@@ -76,10 +77,10 @@ with click.progressbar(events, label='Processing events') as events:
 
         # save file from url as image_name at output_dir/images
         if img_url and dl_images:
-            os.makedirs('./'+output_dir+'/images/', exist_ok=True)
-            urlretrieve(img_url, output_dir+'/images/'+image_name)
+            os.makedirs(os.getcwd()+'/'+output_dir+'/images/', exist_ok=True)
+            urlretrieve(img_url, os.getcwd()+'/'+output_dir+'/images/'+image_name)
 
         output['events'].append(new_event)
 
-with open(output_dir+'output.json', 'w') as file:
+with open(os.getcwd()+'/'+output_dir+'/'+'output.json', 'w') as file:
     json.dump(output, file, sort_keys=True, indent=2)
