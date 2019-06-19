@@ -57,7 +57,7 @@ with click.progressbar(events, label='Processing events') as events:
         new_event['venue'] = event.find(
             'div', class_='list-card__venue').string.strip()
 
-        img = main.find('img', class_='js-poster-image').get('src')
+        img = event.find('img', class_='js-poster-image').get('src')
         img_url = None
         if 'files/' in img:  # using a saved html
             img = img.split('files/')[1]  # remove prefix that html save gives
