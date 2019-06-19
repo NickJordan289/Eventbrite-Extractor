@@ -68,6 +68,10 @@ with click.progressbar(events, label='Processing events') as events:
         # encode image name same way that chromium html save does (for consistency)
         image_name = img.replace('.', '_').replace(
             '/', '_').replace(':', '_').replace('original_', 'original.')
+
+        # hacky fix, TODO: fix above so that we dont need to do this
+        image_name = image_name.replace('cdn_evbuc_com', 'cdn.evbuc.com')
+
         new_event['image'] = image_name
 
         # save file from url as image_name at output_dir/images
